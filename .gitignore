@@ -1,5 +1,6 @@
 
 
 nbproject/
-build
+build.xml
 manifest.mf
+agaricus-lepiota.data

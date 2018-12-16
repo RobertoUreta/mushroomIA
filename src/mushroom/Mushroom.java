@@ -7,6 +7,7 @@ package mushroom;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.Scanner;
 /**
  *
@@ -20,13 +21,14 @@ public class Mushroom {
     public static void main(String[] args) {
         try{
             String linea;
-            FileReader f = new FileReader(new File("test.txt"));
+            FileReader f = new FileReader(new File("agaricus-lepiota.data"));
             BufferedReader b = new BufferedReader(f);
             while((linea = b.readLine())!=null) {
-                System.out.println(linea);
+                //System.out.println(linea);
                 linea = linea.replace("\t", "");
                 linea = linea.trim();
                 String[] arregloLinea = linea.split(",");
+                System.out.println(Arrays.deepToString(arregloLinea));
             }
 
         }catch(Exception e){
