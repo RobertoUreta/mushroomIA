@@ -30,7 +30,7 @@ public class Mushroom {
                 String[] arregloLinea = linea.split(",");
                 System.out.println(Arrays.deepToString(arregloLinea));
             }
-
+            
         }catch(Exception e){
             System.out.println("Error al abrir el archivo");
         }
