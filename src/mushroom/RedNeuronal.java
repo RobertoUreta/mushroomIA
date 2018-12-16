@@ -42,6 +42,10 @@ public class RedNeuronal {
         System.out.println("Pesos de la capa 2: " + Arrays.deepToString(pesos2));
     }
     
+    /**
+     * Metodo  utilizado para obtener un pesos aleatorio para la arista que conecta una neurona a otra.
+     * @return double peso
+     */
     private double obtenerPesoAleatorio(){
         double peso = 0;
         Random rnd = new Random();
