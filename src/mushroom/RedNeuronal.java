@@ -304,375 +304,375 @@ public class RedNeuronal {
                          } else if (j == 4) {   
                             switch(c) {
                                case 't' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'f' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                             }
                          } else if (j == 5) {   
                             switch(c) {
                                case 'a' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'l' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'c' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'y' :
-                               nuevoValor = 4;
+                               nuevoValor = 0.4;
                                break;                        
                                case 'f' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'm' :
-                               nuevoValor = 6;
+                               nuevoValor = 0.6;
                                break;
                                case 'n' :
-                               nuevoValor = 7;
+                               nuevoValor = 0.7;
                                break;
                                case 'p' :
-                               nuevoValor = 8;
+                               nuevoValor = 0.8;
                                break;
                                case 's' :
-                               nuevoValor = 9;
+                               nuevoValor = 0.9;
                                break;
                             }                        
                          } else if (j == 6) {   
                             switch(c) {
                                case 'a' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'd' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'f' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'n' :
-                               nuevoValor = 4;
+                               nuevoValor = 0.4;
                                break;
                             }
                          } else if (j == 7) {   
                             switch(c) {
                                case 'c' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'w' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'd' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                             }
                          } else if (j == 8) {   
                             switch(c) {
                                case 'b' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'n' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                             }
                          } else if (j == 9) {   
                             switch(c) {
                                case 'k' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'n' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'b' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'h' :
-                               nuevoValor = 4; 
+                               nuevoValor = 0.4; 
                                break;                       
                                case 'g' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'r' :
-                               nuevoValor = 6;
+                               nuevoValor = 0.6;
                                break;
                                case 'o' :
-                               nuevoValor = 7;
+                               nuevoValor = 0.7;
                                break;
                                case 'p' :
-                               nuevoValor = 8;
+                               nuevoValor = 0.8;
                                break;
                                case 'u' :
-                               nuevoValor = 9;
+                               nuevoValor = 0.9;
                                break;
                                case 'e' :
-                               nuevoValor = 10;
+                               nuevoValor = 1.0;
                                break;
                                case 'w' :
-                               nuevoValor = 11;
+                               nuevoValor = 1.1;
                                break;
                                case 'y' :
-                               nuevoValor = 12;                          
+                               nuevoValor = 1.2;                          
                                break;
                             }                                                                        
                          } else if (j == 10) {   
                             switch(c) {
                                case 'e' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 't' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                             }
                          } else if (j == 11) {   
                             switch(c) {
                                case 'b' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'c' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'u' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'e' :
-                               nuevoValor = 4;  
+                               nuevoValor = 0.4;  
                                break;                      
                                case 'z' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'r' :
-                               nuevoValor = 6;
+                               nuevoValor = 0.6;
                                break;
                                case '?' :
-                               nuevoValor = 7;                         
+                               nuevoValor = 0.7;                         
                                break;
                             }
                          } else if (j == 12) {   
                             switch(c) {
                                case 'f' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'y' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'k' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 's' :
-                               nuevoValor = 4;                                               
+                               nuevoValor = 0.4;                                               
                                break;
                             }                        
                          } else if (j == 13) {   
                             switch(c) {
                                case 'f' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'y' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'k' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 's' :
-                               nuevoValor = 4;                                               
+                               nuevoValor = 0.4;                                               
                                break;
                             }   
                          } else if (j == 14) {   
                             switch(c) {
                                case 'n' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'b' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                case 'c' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'g' :
-                               nuevoValor = 4;
+                               nuevoValor = 0.4;
                                break;                        
                                case 'o' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'p' :
-                               nuevoValor = 6;
+                               nuevoValor = 0.6;
                                break;
                                case 'e' :
-                               nuevoValor = 7;
+                               nuevoValor = 0.7;
                                break;
                                case 'w' :
-                               nuevoValor = 8;
+                               nuevoValor = 0.8;
                                break;
                                case 'y' :
-                               nuevoValor = 9;                        
+                               nuevoValor = 0.9;                        
                                break;
                             }
                          } else if (j == 15) {   
                             switch(c) {
                                case 'n' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'b' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'c' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'g' :
-                               nuevoValor = 4; 
+                               nuevoValor = 0.4; 
                                break;                       
                                case 'o' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'p' :
-                               nuevoValor = 6;
+                               nuevoValor = 0.6;
                                break;
                                case 'e' :
-                               nuevoValor = 7;
+                               nuevoValor = 0.7;
                                break;
                                case 'w' :
-                               nuevoValor = 8;
+                               nuevoValor = 0.8;
                                break;
                                case 'y' :
-                               nuevoValor = 9;                        
+                               nuevoValor = 0.9;                        
                                break;
                             }                        
                          } else if (j == 16) {   
                             switch(c) {
                                case 'p' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'u' :
-                               nuevoValor = 2;                                            
+                               nuevoValor = 0.2;                                            
                                break;
                             } 
                           } else if (j == 17) {   
                             switch(c) {
                                case 'n' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'o' :
-                               nuevoValor = 2; 
+                               nuevoValor = 0.2; 
                                break;  
                                case 'w' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'y' :
-                               nuevoValor = 4;                                          
+                               nuevoValor = 0.4;                                          
                                break;
                             }                        
                           } else if (j == 18) {   
                             switch(c) {
                                case 'n' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'o' :
-                               nuevoValor = 2; 
+                               nuevoValor = 0.2; 
                                break;  
                                case 't' :
-                               nuevoValor = 3;                                       
+                               nuevoValor = 0.3;                                       
                                break;
                             }                        
                          } else if (j == 19) {     
                             switch(c) {
                                case 'c' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'e' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'f' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'l' :
-                               nuevoValor = 4;  
+                               nuevoValor = 0.4;  
                                break;                      
                                case 'n' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'p' :
-                               nuevoValor = 6;
+                               nuevoValor = 0.6;
                                break;
                                case 's' :
-                               nuevoValor = 7;
+                               nuevoValor = 0.7;
                                break;
                                case 'z' :
-                               nuevoValor = 8;                     
+                               nuevoValor = 0.8;                     
                                break;
                             }  
                          } else if (j == 20) {     
                             switch(c) {
                                case 'k' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'n' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'b' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'h' :
-                               nuevoValor = 4; 
+                               nuevoValor = 0.4; 
                                break;                       
                                case 'r' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'o' :
-                               nuevoValor = 6;
+                               nuevoValor = 0.6;
                                break;
                                case 'u' :
-                               nuevoValor = 7;
+                               nuevoValor = 0.7;
                                break;
                                case 'w' :
-                               nuevoValor = 8; 
+                               nuevoValor = 0.8; 
                                break;  
                                case 'y' :
-                               nuevoValor = 9;                                              
+                               nuevoValor = 0.9;                                              
                                break;
                             }
                          } else if (j == 21) {     
                             switch(c) {
                                case 'a' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'c' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'n' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 's' :
-                               nuevoValor = 4;   
+                               nuevoValor = 0.4;   
                                break;                     
                                case 'v' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'y' :
-                               nuevoValor = 6;                                             
+                               nuevoValor = 0.6;                                             
                                break;
                             }                                                
                          } else if (j == 22) {     
                             switch(c) {
                                case 'g' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'l' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'm' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'p' :
-                               nuevoValor = 4; 
+                               nuevoValor = 0.4; 
                                break;                       
                                case 'u' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'w' :
-                               nuevoValor = 6;  
+                               nuevoValor = 0.6;  
                                break;  
                                case 'd' :
-                               nuevoValor = 7;                                          
+                               nuevoValor = 0.7;                                          
                                break;
                             }                                                                         
                          }                                                                    
