@@ -1,0 +1,6 @@
+build/
+nbproject/
+test/
+agaricus-lepiota.data
+build.xml
+manifest.mf
