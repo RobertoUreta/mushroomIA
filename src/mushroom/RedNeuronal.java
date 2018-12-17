@@ -159,10 +159,10 @@ public class RedNeuronal {
             }
             
             double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
-            double[][] nuevoResultado1 = /*Metodo Roberto*/;
+            double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
             
             double[][] resultado2 = multiplicacionMatrices(nuevoResultado1, pesos2);
-            double[][] nuevoResultado2 = /*Metodo Roberto*/;
+            double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
             
             double valorDeseado = entrenamiento[k][0];
             
