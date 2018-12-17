@@ -30,7 +30,7 @@ public class RedNeuronal {
     double[][] entrenamiento = new double[totalDataEntrenamiento][totalAtributos];//85% de los datos
     double[][] prueba = new double[totalDataPrueba][totalAtributos];//15 % de los datos
     //Pesos de RedNeuronal
-    double[][] pesos1 = new double[23][5]; //23 neuronas de entrada que se conectan a 5 neuronas.
+    double[][] pesos1 = new double[22][5]; //22 neuronas de entrada que se conectan a 5 neuronas.
     double[][] pesos2 = new double[5][1]; // 5 neuronas de la capa oculta se conectan a la neurona de salida.
     
     public RedNeuronal() {
@@ -133,6 +133,64 @@ public class RedNeuronal {
         int numero = rnd.nextInt(10);
         peso = numero/10.0;
         return peso;
+    }        
+    
+    private double[][] multiplicacionMatrices(double[][] hongo, double[][] peso){
+        
+        double[][] resultado = new double[hongo.length][peso[0].length];
+        
+        for(int i = 0; i<hongo.length; i++){
+            for(int j = 0; j<peso[0].length; j++){
+                for(int k = 0; k<hongo.length; k++){
+                    resultado[i][j]=resultado[i][j]+(hongo[i][k]*peso[k][j]);
+                }
+            }
+        }
+        return resultado;
+    }
+    
+    //El metodo debe ser llamado por otro metodo que contenga la iteracion con p < 5000
+    private void propagacion(double precision){
+        
+        for(int k = 0; k<entrenamiento.length; k++){
+            double[][]hongo = new double[1][22];//Esta matriz recibira los atributos de un hongo 
+            for(int i = 1; i<entrenamiento[k].length; i++){
+                hongo[0][i-1]=entrenamiento[k][i];
+            }
+            
+            double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
+            double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
+            
+            double[][] resultado2 = multiplicacionMatrices(nuevoResultado1, pesos2);
+            double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
+            
+            double valorDeseado = entrenamiento[k][0];
+            
+            if( ((nuevoResultado2[0][0] > .5) && (valorDeseado > .5)) || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5)) ){
+                precision++;
+            }
+            else{
+                //llamar a backpropagation
+            }
+        }
+    }
+    
+    /**
+     * Se utiliza la funcion Sigmoide ==> P(t) = 1/(1+e^-t)
+     * para mejorar la curva de aprendizaje de la red neuronal.
+     * @param capa matriz a la que se aplica funcion sigmoide.
+     * @return matriz modifica con la funcion sigmoide.
+     */
+    private double[][] funcionSigmoide(double[][] capa){
+        double [][] resultado = new double[capa.length][capa[0].length];
+        for (int i = 0; i < capa.length; i++) {
+            for (int j = 0; j < capa[i].length; j++) {
+                double tNegativo = capa[i][j] * -1;
+                double denominador = 1 + (Math.exp(tNegativo));
+                resultado[i][j] = 1 / denominador;
+            }
+        }
+        return resultado;
     }
     
     private void crearDatos(){
