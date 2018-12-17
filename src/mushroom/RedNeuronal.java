@@ -175,6 +175,24 @@ public class RedNeuronal {
         }
     }
     
+    /**
+     * Se utiliza la funcion Sigmoide ==> P(t) = 1/(1+e^-t)
+     * para mejorar la curva de aprendizaje de la red neuronal.
+     * @param capa matriz a la que se aplica funcion sigmoide.
+     * @return matriz modifica con la funcion sigmoide.
+     */
+    private double[][] funcionSigmoide(double[][] capa){
+        double [][] resultado = new double[capa.length][capa[0].length];
+        for (int i = 0; i < capa.length; i++) {
+            for (int j = 0; j < capa[i].length; j++) {
+                double tNegativo = capa[i][j] * -1;
+                double denominador = 1 + (Math.exp(tNegativo));
+                resultado[i][j] = 1 / denominador;
+            }
+        }
+        return resultado;
+    }
+    
     private void crearDatos(){
         try{
             String linea;
