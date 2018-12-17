@@ -221,7 +221,7 @@ public class RedNeuronal {
                 linea = linea.replace("\t", "");
                 linea = linea.trim();
                 String[] arregloLinea = linea.split(",");
-                int nuevoValor=0;
+                double nuevoValor=0;
                 for (int j = 0; j < arregloLinea.length; j++) {
                     char c = arregloLinea[j].charAt(0);
                     
@@ -235,70 +235,70 @@ public class RedNeuronal {
                     else if (j == 1) {
                             switch(c) {
                                case 'b' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'c' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'x' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'f' :
-                               nuevoValor = 4;
+                               nuevoValor = 0.4;
                                break;
                                case 'k' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 's' :
-                               nuevoValor = 6;
+                               nuevoValor = 0.6;
                                break;
                             }
                          } else if (j == 2) {   
                             switch(c) {
                                case 'f' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'g' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'y' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 's' :
-                               nuevoValor = 4;
+                               nuevoValor = 0.4;
                                break;
                             }
                          } else if (j == 3) {   
                             switch(c) {
                                case 'n' :
-                               nuevoValor = 1;
+                               nuevoValor = 0.1;
                                break;
                                case 'b' :
-                               nuevoValor = 2;
+                               nuevoValor = 0.2;
                                break;
                                case 'c' :
-                               nuevoValor = 3;
+                               nuevoValor = 0.3;
                                break;
                                case 'g' :
-                               nuevoValor = 4;
+                               nuevoValor = 0.4;
                                break;
                                case 'r' :
-                               nuevoValor = 5;
+                               nuevoValor = 0.5;
                                break;
                                case 'p' :
-                               nuevoValor = 6;
+                               nuevoValor = 0.6;
                                break;
                                case 'u' :
-                               nuevoValor = 7;
+                               nuevoValor = 0.7;
                                break;
                                case 'e' :
-                               nuevoValor = 8;
+                               nuevoValor = 0.8;
                                break;
                                case 'w' :
-                               nuevoValor = 9;
+                               nuevoValor = 0.9;
                                break;
                                case 'y' :
-                               nuevoValor = 10;                         
+                               nuevoValor = 0.10;                         
                                break;
                             }   
                          } else if (j == 4) {   
