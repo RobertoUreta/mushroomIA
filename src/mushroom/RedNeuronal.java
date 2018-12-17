@@ -24,11 +24,13 @@ import java.util.Random;
 public class RedNeuronal {
     int totalAtributos = 23;
     int totalData = 8124;
-    int totalDataEntrenamiento = 6905;
-    int totalDataPrueba = totalData - totalDataEntrenamiento;//1219
+    int totalDataEntrenamiento = 6093;
+    int totalDataValidacion=812;
+    int totalDataPrueba = totalData - totalDataEntrenamiento - totalDataValidacion;//1219
     double[][] data = new double[totalData][totalAtributos];//todos los datos codificados
-    double[][] entrenamiento = new double[totalDataEntrenamiento][totalAtributos];//85% de los datos
+    double[][] entrenamiento = new double[totalDataEntrenamiento][totalAtributos];//75% de los datos
     double[][] prueba = new double[totalDataPrueba][totalAtributos];//15 % de los datos
+    double[][] validacion = new double[totalDataValidacion][totalAtributos];//10 % de los datos
     //Pesos de RedNeuronal
     double[][] pesos1 = new double[22][5]; //22 neuronas de entrada que se conectan a 5 neuronas.
     double[][] pesos2 = new double[5][1]; // 5 neuronas de la capa oculta se conectan a la neurona de salida.
@@ -93,10 +95,26 @@ public class RedNeuronal {
      */
     public void elegirDataPrueba(List<Integer> lista){
         int fila = 0;
-        for (int i = totalDataEntrenamiento; i < totalData; i++) {
+        for (int i = totalDataEntrenamiento; i < totalData - totalDataValidacion; i++) {
             int numRandom = lista.get(i);
             for (int j = 0; j < totalAtributos; j++) {
                 prueba[fila][j] = data[numRandom][j];
+            }
+            fila++;
+        }
+    }
+    /**
+     * Se elige la data usada para la validacion,
+     * la cual corresponde al 10% de la data total,
+     * para esto se usa la lista con los numeros desordenados.
+     * @param lista ArrayList con los numeros desordenados.
+     */
+    public void elegirDataValidacion(List<Integer> lista){
+        int fila = 0;
+        for (int i = totalDataEntrenamiento + totalDataPrueba; i < totalData; i++) {
+            int numRandom = lista.get(i);
+            for (int j = 0; j < totalAtributos; j++) {
+                validacion[fila][j] = data[numRandom][j];
             }
             fila++;
         }
