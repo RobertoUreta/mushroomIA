@@ -263,13 +263,49 @@ public class RedNeuronal {
         return nuevoGradiente;
     }
     
-    
+    /**
+     * Usada para obtener la fila de una matriz
+     * @param matriz matriz a obtener la fila.
+     * @param fila numero de fila.
+     * @return la fila con todos los atributos.
+     */
     public double[] obtenerFila(double[][] matriz, int fila){
         double[] fila1 = new double[matriz[fila].length];
         for (int col = 0; col < matriz[fila].length; col++) {
             fila1[col] = matriz[fila][col];
         }
         return fila1;
+    }
+    
+    /**
+     * Metodo que ejecuta la data de prueba para la red neuronal.
+     * @return procentaje de aciertos que tiene la red neuronal para la data de prueba.
+     */
+    public double ejecutarPrueba(){
+        double precision = 0;
+        double porcentaje = 0;
+        for (int fil = 0; fil < totalDataPrueba; fil++) {
+
+            double[][] hongo = new double[1][22];
+            for (int col = 1; col < prueba[fil].length; col++) {
+                hongo[0][col - 1] = prueba[fil][col];
+            }
+
+            double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
+            double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
+
+            double[][] resultado2 = multiplicacionMatrices(nuevoResultado1,
+                                                           pesos2);
+            double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
+            double valorDeseado = prueba[fil][0];
+
+            if (((nuevoResultado2[0][0] > .5) && (valorDeseado > .5))
+                || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5))) {
+                precision++;
+            }
+        }
+        porcentaje = (precision/totalDataPrueba)*100;
+        return porcentaje;
     }
     
     
