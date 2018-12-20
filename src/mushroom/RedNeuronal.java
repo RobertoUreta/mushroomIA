@@ -225,6 +225,28 @@ public class RedNeuronal {
                     }
                 }
             }
+            System.out.println("Precicison epoca "+ (epoca+1)+": "+precision);
+            if(epoca%50==0){
+                imprimirPesos();
+            }
+            if(precisionesAnteriores[0] == precisionesAnteriores[1] && precision == precisionesAnteriores[0]){
+                break;
+            }
+            else{
+                precisionesAnteriores[0] = precisionesAnteriores[1];
+                precisionesAnteriores[1] = precision;
+            }
+        }
+    }
+    
+    private void imprimirPesos(){
+        System.out.println("******** PESOS CAPA 2 ********");
+        for (int i = 0; i < pesos2.length; i++) {
+            for (int j = 0; j < pesos2[0].length; j++) {
+                System.out.println("w"+i+": "+pesos2[i][j]);
+                
+            }
+            
         }
     }
     
