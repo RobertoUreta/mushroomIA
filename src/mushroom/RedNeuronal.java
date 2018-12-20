@@ -188,7 +188,28 @@ public class RedNeuronal {
                 precision++;
             }
             else{
-                //llamar a backpropagation
+                
+                double gradienteSalida = this.gradienteEstocasticoDescendenteSalida(valorDeseado, nuevoResultado2[0][0]);
+                double[] gradienteSalida1 = new double[1];
+                gradienteSalida1[0] = gradienteSalida;
+               
+                for(int col = 0; col<pesos2[0].length; col++){
+                    for(int fil = 0; fil<pesos2.length; fil++){
+                       //update
+                    }
+                }
+                
+                double[] gradienteOculto = new double[resultado1[0].length];
+                for(int col = 0; col<resultado1[0].length; col++){
+                    //gradienteEstocasticoDescendenteOculto
+                    //Asignacion
+                }
+                
+                for(int col = 0; col<pesos1[0].length; col++){
+                    for(int fil = 0; fil<pesos1.length; fil++){
+                       //update
+                    }
+                }
             }
         }
     }
@@ -209,6 +230,20 @@ public class RedNeuronal {
             }
         }
         return resultado;
+    }
+    
+    /**
+     * 
+     * @param valorEsperado valor esperado por cada hongo que se procesa para entrenar.
+     * @param salida valor entregado por la neurona de salida de la red neuronal.
+     * @return gradiente. Retorna el gradiente estocastico calculado sobre
+     * el valor entregado por la neurona de salida despues del proceso
+     * de propagacion
+     */
+    private double gradienteEstocasticoDescendenteSalida(double valorEsperado, double salida){
+        double gradiente;
+        gradiente = (valorEsperado-salida)*(1-salida)*salida;
+        return gradiente;
     }
     
     private void crearDatos(){
