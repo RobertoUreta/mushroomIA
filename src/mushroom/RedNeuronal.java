@@ -211,8 +211,12 @@ public class RedNeuronal {
 
                     double[] gradienteOculto = new double[resultado1[0].length];
                     for(int col = 0; col<resultado1[0].length; col++){
-                        //gradienteEstocasticoDescendenteOculto
+                        double[] fila = obtenerFila(pesos2, col);
+                       //gradienteEstocasticoDescendenteOculto
+                        double nuevaGradiente = gradienteEstocasticoDescendienteOculto(
+                                nuevoResultado1[0][col], gradienteSalida1, fila);
                         //Asignacion
+                        gradienteOculto[col] = nuevaGradiente;    
                     }
 
                     for(int col = 0; col<pesos1[0].length; col++){
@@ -259,6 +263,16 @@ public class RedNeuronal {
         double nuevoGradiente = valorAntiguo * sumaPG * (1 - valorAntiguo);
         return nuevoGradiente;
     }
+    
+    
+    public double[] obtenerFila(double[][] matriz, int fila){
+        double[] fila1 = new double[matriz[fila].length];
+        for (int col = 0; col < matriz[fila].length; col++) {
+            fila1[col] = matriz[fila][col];
+        }
+        return fila1;
+    }
+    
     
     
     /**
