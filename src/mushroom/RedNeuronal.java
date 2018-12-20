@@ -233,6 +233,24 @@ public class RedNeuronal {
     }
     
     /**
+     * Gradiente estocastico para capas ocultas.
+     * @param valorAntiguo resultado para el atributo de la capa actual.
+     * @param gradientesPrevios valores del gradiente de capa previa.
+     * @param pesosPrevios pesos de capa previa.
+     * @return nuevo valor de gradiente para capa actual. 
+     */
+    public double gradienteEstocasticoDescendienteOculto(double valorAntiguo, double[] gradientesPrevios, double[] pesosPrevios){
+        //suma de pesos previos + gradientes previos
+        double sumaPG = 0;
+        for (int i = 0; i < pesosPrevios.length; i++) {
+            sumaPG += pesosPrevios[i] * gradientesPrevios[i];
+        }
+        double nuevoGradiente = valorAntiguo * sumaPG * (1 - valorAntiguo);
+        return nuevoGradiente;
+    }
+    
+    
+    /**
      * 
      * @param valorEsperado valor esperado por cada hongo que se procesa para entrenar.
      * @param salida valor entregado por la neurona de salida de la red neuronal.
