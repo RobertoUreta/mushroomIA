@@ -199,41 +199,26 @@ public class RedNeuronal {
                 }
                 else{
                     //llamar a backpropagation
-                }
-            }
-            
-            double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
-            double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
-            
-            double[][] resultado2 = multiplicacionMatrices(nuevoResultado1, pesos2);
-            double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
-            
-            double valorDeseado = entrenamiento[k][0];
-            
-            if( ((nuevoResultado2[0][0] > .5) && (valorDeseado > .5)) || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5)) ){
-                precision++;
-            }
-            else{
-                
-                double gradienteSalida = this.gradienteEstocasticoDescendenteSalida(valorDeseado, nuevoResultado2[0][0]);
-                double[] gradienteSalida1 = new double[1];
-                gradienteSalida1[0] = gradienteSalida;
-               
-                for(int col = 0; col<pesos2[0].length; col++){
-                    for(int fil = 0; fil<pesos2.length; fil++){
-                       //update
+                    double gradienteSalida = this.gradienteEstocasticoDescendenteSalida(valorDeseado, nuevoResultado2[0][0]);
+                    double[] gradienteSalida1 = new double[1];
+                    gradienteSalida1[0] = gradienteSalida;
+
+                    for(int col = 0; col<pesos2[0].length; col++){
+                        for(int fil = 0; fil<pesos2.length; fil++){
+                           //update
+                        }
                     }
-                }
-                
-                double[] gradienteOculto = new double[resultado1[0].length];
-                for(int col = 0; col<resultado1[0].length; col++){
-                    //gradienteEstocasticoDescendenteOculto
-                    //Asignacion
-                }
-                
-                for(int col = 0; col<pesos1[0].length; col++){
-                    for(int fil = 0; fil<pesos1.length; fil++){
-                       //update
+
+                    double[] gradienteOculto = new double[resultado1[0].length];
+                    for(int col = 0; col<resultado1[0].length; col++){
+                        //gradienteEstocasticoDescendenteOculto
+                        //Asignacion
+                    }
+
+                    for(int col = 0; col<pesos1[0].length; col++){
+                        for(int fil = 0; fil<pesos1.length; fil++){
+                           //update
+                        }
                     }
                 }
             }
