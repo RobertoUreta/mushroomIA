@@ -26,6 +26,8 @@ public class RedNeuronal {
     int totalData = 8124;
     int totalDataEntrenamiento = 6093;
     int totalDataValidacion=812;
+    double tasaAprendizaje = 0.2;
+    double momentum = 0.5;
     int totalDataPrueba = totalData - totalDataEntrenamiento - totalDataValidacion;//1219
     double[][] data = new double[totalData][totalAtributos];//todos los datos codificados
     double[][] entrenamiento = new double[totalDataEntrenamiento][totalAtributos];//75% de los datos
@@ -168,27 +170,36 @@ public class RedNeuronal {
     }
     
     //El metodo debe ser llamado por otro metodo que contenga la iteracion con p < 5000
-    private void propagacion(double precision){
+    private void entrenamiento(){
         
-        for(int k = 0; k<entrenamiento.length; k++){
-            double[][]hongo = new double[1][22];//Esta matriz recibira los atributos de un hongo 
-            for(int i = 1; i<entrenamiento[k].length; i++){
-                hongo[0][i-1]=entrenamiento[k][i];
-            }
-            
-            double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
-            double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
-            
-            double[][] resultado2 = multiplicacionMatrices(nuevoResultado1, pesos2);
-            double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
-            
-            double valorDeseado = entrenamiento[k][0];
-            
-            if( ((nuevoResultado2[0][0] > .5) && (valorDeseado > .5)) || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5)) ){
-                precision++;
-            }
-            else{
-                //llamar a backpropagation
+        double[][] pesosPrevios1 = new double[22][5]; 
+        double[][] pesosPrevios2 = new double[5][1];
+        
+        // [0]: precision pasada - [1]: precision antespasada 
+        double[] precisionesAnteriores = new double[2]; 
+        
+        for(int epoca =0 ; epoca<2000 ; epoca++){
+            double precision = 0;
+            for(int k = 0; k<entrenamiento.length; k++){
+                double[][]hongo = new double[1][22];//Esta matriz recibira los atributos de un hongo 
+                for(int i = 1; i<entrenamiento[k].length; i++){
+                    hongo[0][i-1]=entrenamiento[k][i];
+                }
+
+                double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
+                double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
+
+                double[][] resultado2 = multiplicacionMatrices(nuevoResultado1, pesos2);
+                double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
+
+                double valorDeseado = entrenamiento[k][0];
+
+                if( ((nuevoResultado2[0][0] > .5) && (valorDeseado > .5)) || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5)) ){
+                    precision++;
+                }
+                else{
+                    //llamar a backpropagation
+                }
             }
         }
     }
@@ -686,5 +697,13 @@ public class RedNeuronal {
               e.printStackTrace();
         } 
                     
+    }
+    
+    public double actulizarPesos(double pesoPrevio, double gradienteAnterior, double gradienteActual, double[][] pesosPrevios
+    , int x, int y){
+        double nuevoPeso = pesoPrevio + tasaAprendizaje*gradienteActual*gradienteAnterior
+                + momentum*pesosPrevios[x][y];
+        pesosPrevios[x][y] = tasaAprendizaje*gradienteActual*gradienteAnterior;
+        return nuevoPeso;
     }
 }
