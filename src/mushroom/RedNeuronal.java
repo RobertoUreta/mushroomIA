@@ -26,6 +26,8 @@ public class RedNeuronal {
     int totalData = 8124;
     int totalDataEntrenamiento = 6093;
     int totalDataValidacion=812;
+    double tasaAprendizaje = 0.2;
+    double momentum = 0.5;
     int totalDataPrueba = totalData - totalDataEntrenamiento - totalDataValidacion;//1219
     double[][] data = new double[totalData][totalAtributos];//todos los datos codificados
     double[][] entrenamiento = new double[totalDataEntrenamiento][totalAtributos];//75% de los datos
@@ -168,27 +170,57 @@ public class RedNeuronal {
     }
     
     //El metodo debe ser llamado por otro metodo que contenga la iteracion con p < 5000
-    private void propagacion(double precision){
+    private void entrenamiento(){
         
-        for(int k = 0; k<entrenamiento.length; k++){
-            double[][]hongo = new double[1][22];//Esta matriz recibira los atributos de un hongo 
-            for(int i = 1; i<entrenamiento[k].length; i++){
-                hongo[0][i-1]=entrenamiento[k][i];
-            }
-            
-            double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
-            double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
-            
-            double[][] resultado2 = multiplicacionMatrices(nuevoResultado1, pesos2);
-            double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
-            
-            double valorDeseado = entrenamiento[k][0];
-            
-            if( ((nuevoResultado2[0][0] > .5) && (valorDeseado > .5)) || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5)) ){
-                precision++;
-            }
-            else{
-                //llamar a backpropagation
+        double[][] pesosPrevios1 = new double[22][5]; 
+        double[][] pesosPrevios2 = new double[5][1];
+        
+        // [0]: precision pasada - [1]: precision antespasada 
+        double[] precisionesAnteriores = new double[2]; 
+        
+        for(int epoca =0 ; epoca<2000 ; epoca++){
+            double precision = 0;
+            for(int k = 0; k<entrenamiento.length; k++){
+                double[][]hongo = new double[1][22];//Esta matriz recibira los atributos de un hongo 
+                for(int i = 1; i<entrenamiento[k].length; i++){
+                    hongo[0][i-1]=entrenamiento[k][i];
+                }
+
+                double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
+                double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
+
+                double[][] resultado2 = multiplicacionMatrices(nuevoResultado1, pesos2);
+                double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
+
+                double valorDeseado = entrenamiento[k][0];
+
+                if( ((nuevoResultado2[0][0] > .5) && (valorDeseado > .5)) || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5)) ){
+                    precision++;
+                }
+                else{
+                    //llamar a backpropagation
+                    double gradienteSalida = this.gradienteEstocasticoDescendenteSalida(valorDeseado, nuevoResultado2[0][0]);
+                    double[] gradienteSalida1 = new double[1];
+                    gradienteSalida1[0] = gradienteSalida;
+
+                    for(int col = 0; col<pesos2[0].length; col++){
+                        for(int fil = 0; fil<pesos2.length; fil++){
+                           //update
+                        }
+                    }
+
+                    double[] gradienteOculto = new double[resultado1[0].length];
+                    for(int col = 0; col<resultado1[0].length; col++){
+                        //gradienteEstocasticoDescendenteOculto
+                        //Asignacion
+                    }
+
+                    for(int col = 0; col<pesos1[0].length; col++){
+                        for(int fil = 0; fil<pesos1.length; fil++){
+                           //update
+                        }
+                    }
+                }
             }
         }
     }
@@ -209,6 +241,38 @@ public class RedNeuronal {
             }
         }
         return resultado;
+    }
+    
+    /**
+     * Gradiente estocastico para capas ocultas.
+     * @param valorAntiguo resultado para el atributo de la capa actual.
+     * @param gradientesPrevios valores del gradiente de capa previa.
+     * @param pesosPrevios pesos de capa previa.
+     * @return nuevo valor de gradiente para capa actual. 
+     */
+    public double gradienteEstocasticoDescendienteOculto(double valorAntiguo, double[] gradientesPrevios, double[] pesosPrevios){
+        //suma de pesos previos + gradientes previos
+        double sumaPG = 0;
+        for (int i = 0; i < pesosPrevios.length; i++) {
+            sumaPG += pesosPrevios[i] * gradientesPrevios[i];
+        }
+        double nuevoGradiente = valorAntiguo * sumaPG * (1 - valorAntiguo);
+        return nuevoGradiente;
+    }
+    
+    
+    /**
+     * 
+     * @param valorEsperado valor esperado por cada hongo que se procesa para entrenar.
+     * @param salida valor entregado por la neurona de salida de la red neuronal.
+     * @return gradiente. Retorna el gradiente estocastico calculado sobre
+     * el valor entregado por la neurona de salida despues del proceso
+     * de propagacion
+     */
+    private double gradienteEstocasticoDescendenteSalida(double valorEsperado, double salida){
+        double gradiente;
+        gradiente = (valorEsperado-salida)*(1-salida)*salida;
+        return gradiente;
     }
     
     private void crearDatos(){
@@ -686,5 +750,13 @@ public class RedNeuronal {
               e.printStackTrace();
         } 
                     
+    }
+    
+    public double actulizarPesos(double pesoPrevio, double gradienteAnterior, double gradienteActual, double[][] pesosPrevios
+    , int x, int y){
+        double nuevoPeso = pesoPrevio + tasaAprendizaje*gradienteActual*gradienteAnterior
+                + momentum*pesosPrevios[x][y];
+        pesosPrevios[x][y] = tasaAprendizaje*gradienteActual*gradienteAnterior;
+        return nuevoPeso;
     }
 }
