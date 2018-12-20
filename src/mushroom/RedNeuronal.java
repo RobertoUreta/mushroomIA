@@ -169,7 +169,6 @@ public class RedNeuronal {
         return resultado;
     }
     
-    //El metodo debe ser llamado por otro metodo que contenga la iteracion con p < 5000
     private void entrenamiento(){
         
         double[][] pesosPrevios1 = new double[22][5]; 
@@ -205,19 +204,23 @@ public class RedNeuronal {
 
                     for(int col = 0; col<pesos2[0].length; col++){
                         for(int fil = 0; fil<pesos2.length; fil++){
-                           //update
+                           pesos2[fil][col]=this.actulizarPesos(pesos2[fil][col], gradienteSalida, nuevoResultado2[0][col], pesosPrevios2, fil, col);
                         }
                     }
 
                     double[] gradienteOculto = new double[resultado1[0].length];
                     for(int col = 0; col<resultado1[0].length; col++){
-                        //gradienteEstocasticoDescendenteOculto
+                        double[] fila = obtenerFila(pesos2, col);
+                       //gradienteEstocasticoDescendenteOculto
+                        double nuevaGradiente = gradienteEstocasticoDescendienteOculto(
+                                nuevoResultado1[0][col], gradienteSalida1, fila);
                         //Asignacion
+                        gradienteOculto[col] = nuevaGradiente;    
                     }
 
                     for(int col = 0; col<pesos1[0].length; col++){
                         for(int fil = 0; fil<pesos1.length; fil++){
-                           //update
+                           pesos1[fil][col]=this.actulizarPesos(pesos1[fil][col], gradienteOculto[col], nuevoResultado1[0][col], pesosPrevios1, fil, col);
                         }
                     }
                 }
@@ -259,6 +262,16 @@ public class RedNeuronal {
         double nuevoGradiente = valorAntiguo * sumaPG * (1 - valorAntiguo);
         return nuevoGradiente;
     }
+    
+    
+    public double[] obtenerFila(double[][] matriz, int fila){
+        double[] fila1 = new double[matriz[fila].length];
+        for (int col = 0; col < matriz[fila].length; col++) {
+            fila1[col] = matriz[fila][col];
+        }
+        return fila1;
+    }
+    
     
     
     /**
