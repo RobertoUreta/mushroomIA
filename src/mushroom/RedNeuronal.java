@@ -34,7 +34,8 @@ public class RedNeuronal {
     double[][] prueba = new double[totalDataPrueba][totalAtributos];//15 % de los datos
     double[][] validacion = new double[totalDataValidacion][totalAtributos];//10 % de los datos
     //Pesos de RedNeuronal
-    double[][] pesos1 = new double[22][5]; //22 neuronas de entrada que se conectan a 5 neuronas.
+    double[][] pesos1 = new double[22][10]; //22 neuronas de entrada que se conectan a 5 neuronas.
+    double[][] peso1_2 = new double[10][5];
     double[][] pesos2 = new double[5][1]; // 5 neuronas de la capa oculta se conectan a la neurona de salida.
     
     public RedNeuronal() {
@@ -44,6 +45,7 @@ public class RedNeuronal {
         elegirDataPrueba(lista);
         this.imprimirData();
         this.calcularPesosCapas();
+        this.entrenamiento();
     }
     
     public void imprimirData(){
@@ -150,7 +152,11 @@ public class RedNeuronal {
     private double obtenerPesoAleatorio(){
         double peso = 0;
         Random rnd = new Random();
-        int numero = rnd.nextInt(10);
+        int numero = rnd.nextInt(5)+1;
+        /*int op = rnd.nextInt(2);
+        if(op==1){
+            numero=numero*-1;
+        }*/
         peso = numero/10.0;
         return peso;
     }        
@@ -193,7 +199,7 @@ public class RedNeuronal {
 
                 double valorDeseado = entrenamiento[k][0];
 
-                if( ((nuevoResultado2[0][0] > .5) && (valorDeseado > .5)) || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5)) ){
+                if( ((nuevoResultado2[0][0] > .25) && (valorDeseado > .25)) || ((nuevoResultado2[0][0] <= .25) && (valorDeseado <= .25)) ){
                     precision++;
                 }
                 else{
@@ -227,7 +233,9 @@ public class RedNeuronal {
             }
             System.out.println("Precicison epoca "+ (epoca+1)+": "+precision);
             if(epoca%50==0){
+                double porcentaje2 = (precision/totalDataEntrenamiento)*100;
                 imprimirPesos();
+                System.out.println("PORCENTAJE ENTRENAMIENTO: "+porcentaje2+"%");
             }
             if(precisionesAnteriores[0] == precisionesAnteriores[1] && precision == precisionesAnteriores[0]){
                 break;
@@ -236,7 +244,17 @@ public class RedNeuronal {
                 precisionesAnteriores[0] = precisionesAnteriores[1];
                 precisionesAnteriores[1] = precision;
             }
+            if(epoca%250==0){
+                double porcentajeAciertos = this.ejecutarPrueba();
+                System.out.println("Porcentaje de Aciertos en Pruebas: "+ porcentajeAciertos+"%");
+                if(porcentajeAciertos>75){
+                    break;
+               }
+            }
+            
         }
+        System.out.println("******** PESOS FINALES ********");
+        this.imprimirPesos();
     }
     
     private void imprimirPesos(){
@@ -321,8 +339,8 @@ public class RedNeuronal {
             double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
             double valorDeseado = prueba[fil][0];
 
-            if (((nuevoResultado2[0][0] > .5) && (valorDeseado > .5))
-                || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5))) {
+            if (((nuevoResultado2[0][0] > .25) && (valorDeseado > .25))
+                || ((nuevoResultado2[0][0] <= .25) && (valorDeseado <= .25))) {
                 precision++;
             }
         }
