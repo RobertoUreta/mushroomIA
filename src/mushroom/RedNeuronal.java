@@ -38,20 +38,22 @@ public class RedNeuronal {
     double[][] pesos1_1 = new double[15][10];
     double[][] pesos1_2 = new double[10][5];
     double[][] pesos2 = new double[5][1]; // 5 neuronas de la capa oculta se conectan a la neurona de salida.
+    double porcentajeEntrenamiento = 0 ;
     
     public RedNeuronal() {
         crearDatos();
         List<Integer> lista = crearListaDesordenada();
         boolean train;
-        do{
-        elegirDataEntrenamiento(lista);
-        elegirDataPrueba(lista);
-        //this.imprimirData();
-        train = comprobarBalanceDatos(entrenamiento);
-        if(!train){
-            Collections.shuffle(lista);
-        }
-        }while(!train);
+        do {
+            elegirDataEntrenamiento(lista);
+            elegirDataPrueba(lista);
+            elegirDataValidacion(lista);
+            //this.imprimirData();
+            train = comprobarBalanceDatos(entrenamiento);
+            if (!train) {
+                Collections.shuffle(lista);
+            }
+        } while (!train);
         this.calcularPesosCapas();
         this.entrenamiento();
     }
@@ -100,21 +102,13 @@ public class RedNeuronal {
         for (int i = 0; i < totalData; i++) {
             lista.add(i);
         }
-        /*List<Integer> lista2 = new ArrayList<>();
-        for (int i = 0; i < totalDataEntrenamiento; i++) {
-            lista2.add(lista.get(i));
-            lista.remove(0);
-        }*/
         Collections.shuffle(lista);
-        /*for (int i = 0; i < lista.size(); i++) {
-            lista2.add(lista.get(i));
-        }*/
         return lista;
     }
     
     /**
      * Se elige la data usada para el entrenamiento,
-     * la cual corresponde al 85% de la data total,
+     * la cual corresponde al 75% de la data total,
      * para esto se usa la lista con los numeros desordenados.
      * @param lista ArrayList con los numeros desordenados
      */
@@ -302,11 +296,8 @@ public class RedNeuronal {
 
                     double[] gradienteOculto = new double[resultado1[0].length];
                     for(int col = 0; col<resultado1[0].length; col++){
-                        //double[] fila = obtenerFila(pesos1_2, col);
-                       //gradienteEstocasticoDescendenteOculto
                         double nuevaGradiente = gradienteEstocasticoDescendienteOculto(
                                 nuevoResultado1[0][col], gradienteOculto1_1, pesos1_1[col]);
-                        //Asignacion
                         gradienteOculto[col] = nuevaGradiente;    
                     }
                     
@@ -317,19 +308,15 @@ public class RedNeuronal {
                     }
                 }
             }
-            System.out.println("Precicison epoca "+ (epoca+1)+": "+precision);
+            System.out.println("Precision Epoca "+ (epoca+1)+": "+precision);
             if(epoca%50==0){
                 double porcentaje2 = (precision/totalDataEntrenamiento)*100;
                 imprimirPesos();
-                System.out.println("PORCENTAJE ENTRENAMIENTO: "+porcentaje2+"%");
+                System.out.println("Porcentaje Aciertos Entrenamiento: "+porcentaje2+"%");
+                porcentajeEntrenamiento = porcentaje2;
             }
             
             if(precisionesAnteriores[0] == precisionesAnteriores[1] && precision == precisionesAnteriores[0]){
-                System.out.println("--------Precisiciones BREAK------------");
-                System.out.println(precisionesAnteriores[0]);
-                System.out.println(precisionesAnteriores[1]);
-                System.out.println(precision);
-                System.out.println("--------Precisiciones BREAK------------");
                 break;
             }
             else{
@@ -340,7 +327,6 @@ public class RedNeuronal {
                 double porcentajeAciertos = this.ejecutarPrueba();
                 System.out.println("Porcentaje de Aciertos en Pruebas: "+ porcentajeAciertos+"%");
                 if(porcentajeAciertos>75){
-                    System.out.println("--------Porcentaje BREAK------------");
                     break;
                }
             }
@@ -349,8 +335,16 @@ public class RedNeuronal {
         }
         System.out.println("******** PESOS FINALES ********");
         this.imprimirPesos();
+   
+         System.out.println("******** PORCENTAJES DE ACIERTOS ********");
+         
+         System.out.println("Porcentaje de Aciertos en Entrenamiento: "+ porcentajeEntrenamiento +"%");
+         
         double porcentajeAciertos = this.ejecutarPrueba();
         System.out.println("Porcentaje de Aciertos en Pruebas: "+ porcentajeAciertos+"%");
+        
+        double porcentajeAciertosValidacion = this.ejecutarValidacion();
+        System.out.println("Porcentaje de Aciertos en Validacion: "+ porcentajeAciertosValidacion+"%");
     }
     
     private void imprimirPesos(){
@@ -399,19 +393,6 @@ public class RedNeuronal {
         return nuevoGradiente;
     }
     
-    /**
-     * Usada para obtener la fila de una matriz
-     * @param matriz matriz a obtener la fila.
-     * @param fila numero de fila.
-     * @return la fila con todos los atributos.
-     */
-    public double[] obtenerFila(double[][] matriz, int fila){
-        double[] fila1 = new double[matriz[fila].length];
-        for (int col = 0; col < matriz[fila].length; col++) {
-            fila1[col] = matriz[fila][col];
-        }
-        return fila1;
-    }
     
     /**
      * Metodo que ejecuta la data de prueba para la red neuronal.
@@ -450,6 +431,42 @@ public class RedNeuronal {
         return porcentaje;
     }
     
+    /**
+     * Metodo que ejecuta la data de validacion para la red neuronal.
+     * @return procentaje de aciertos que tiene la red neuronal para la data de validacion.
+     */
+    public double ejecutarValidacion(){
+        double precision = 0;
+        double porcentaje = 0;
+        for (int fil = 0; fil < totalDataValidacion; fil++) {
+
+            double[][] hongo = new double[1][22];
+            for (int col = 1; col < validacion[fil].length; col++) {
+                hongo[0][col - 1] = validacion[fil][col];
+            }
+
+            double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
+            double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
+
+            double[][] resultado1_1 = multiplicacionMatrices(nuevoResultado1, pesos1_1);
+            double[][] nuevoResultado1_1 = this.funcionSigmoide(resultado1_1);
+
+            double[][] resultado1_2 = multiplicacionMatrices(nuevoResultado1_1, pesos1_2);
+            double[][] nuevoResultado1_2 = this.funcionSigmoide(resultado1_2);
+
+            double[][] resultado2 = multiplicacionMatrices(nuevoResultado1_2, pesos2);
+            double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
+            
+            double valorDeseado = validacion[fil][0];
+
+            if (((nuevoResultado2[0][0] > .5) && (valorDeseado > .5))
+                || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5))) {
+                precision++;
+            }
+        }
+        porcentaje = (precision/totalDataValidacion)*100;
+        return porcentaje;
+    }
     
     
     /**
