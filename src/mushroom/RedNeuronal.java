@@ -34,10 +34,10 @@ public class RedNeuronal {
     double[][] prueba = new double[totalDataPrueba][totalAtributos];//15 % de los datos
     double[][] validacion = new double[totalDataValidacion][totalAtributos];//10 % de los datos
     //Pesos de RedNeuronal
-    double[][] pesos1 = new double[22][16]; //22 neuronas de entrada que se conectan a 5 neuronas.
-    double[][] pesos1_1 = new double[16][10];
-    double[][] pesos1_2 = new double[10][6];
-    double[][] pesos2 = new double[6][1]; // 5 neuronas de la capa oculta se conectan a la neurona de salida.
+    double[][] pesos1 = new double[22][15]; //22 neuronas de entrada que se conectan a 5 neuronas.
+    double[][] pesos1_1 = new double[15][10];
+    double[][] pesos1_2 = new double[10][5];
+    double[][] pesos2 = new double[5][1]; // 5 neuronas de la capa oculta se conectan a la neurona de salida.
     
     public RedNeuronal() {
         crearDatos();
@@ -229,10 +229,10 @@ public class RedNeuronal {
     
     private void entrenamiento(){
         
-        double[][] pesosPrevios1 = new double[22][16]; 
-        double[][] pesosPrevios1_1 = new double[16][10]; 
-        double[][] pesosPrevios1_2 = new double[10][6]; 
-        double[][] pesosPrevios2 = new double[6][1];
+        double[][] pesosPrevios1 = new double[22][15]; 
+        double[][] pesosPrevios1_1 = new double[15][10]; 
+        double[][] pesosPrevios1_2 = new double[10][5]; 
+        double[][] pesosPrevios2 = new double[5][1];
         
         // [0]: precision pasada - [1]: precision antespasada 
         double[] precisionesAnteriores = new double[2]; 
