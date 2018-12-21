@@ -277,7 +277,7 @@ public class RedNeuronal {
                     double[] gradienteOculto1_2 = new double[resultado1_2[0].length];
                     for(int col = 0; col<resultado1_2[0].length; col++){
                         double nuevaGradiente = gradienteEstocasticoDescendienteOculto(
-                                nuevoResultado1_2[0][col], gradienteSalida1, pesos2[0]);
+                                nuevoResultado1_2[0][col], gradienteSalida1, pesos2[col]);
                         gradienteOculto1_2[col] = nuevaGradiente;    
                     }
 
@@ -290,7 +290,7 @@ public class RedNeuronal {
                     double[] gradienteOculto1_1 = new double[resultado1_1[0].length];
                     for(int col = 0; col<resultado1_1[0].length; col++){
                         double nuevaGradiente = gradienteEstocasticoDescendienteOculto(
-                                nuevoResultado1_1[0][col], gradienteOculto1_2, pesos1_2[0]);
+                                nuevoResultado1_1[0][col], gradienteOculto1_2, pesos1_2[col]);
                         gradienteOculto1_1[col] = nuevaGradiente;    
                     }
 
@@ -305,7 +305,7 @@ public class RedNeuronal {
                         //double[] fila = obtenerFila(pesos1_2, col);
                        //gradienteEstocasticoDescendenteOculto
                         double nuevaGradiente = gradienteEstocasticoDescendienteOculto(
-                                nuevoResultado1[0][col], gradienteOculto1_1, pesos1_1[0]);
+                                nuevoResultado1[0][col], gradienteOculto1_1, pesos1_1[col]);
                         //Asignacion
                         gradienteOculto[col] = nuevaGradiente;    
                     }
