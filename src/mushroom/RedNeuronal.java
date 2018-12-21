@@ -26,7 +26,7 @@ public class RedNeuronal {
     int totalData = 8124;
     int totalDataEntrenamiento = 6093;
     int totalDataValidacion=812;
-    double tasaAprendizaje = 0.2;
+    double tasaAprendizaje = 0.01;
     double momentum = 0.5;
     int totalDataPrueba = totalData - totalDataEntrenamiento - totalDataValidacion;//1219
     double[][] data = new double[totalData][totalAtributos];//todos los datos codificados
@@ -34,16 +34,48 @@ public class RedNeuronal {
     double[][] prueba = new double[totalDataPrueba][totalAtributos];//15 % de los datos
     double[][] validacion = new double[totalDataValidacion][totalAtributos];//10 % de los datos
     //Pesos de RedNeuronal
-    double[][] pesos1 = new double[22][5]; //22 neuronas de entrada que se conectan a 5 neuronas.
+    double[][] pesos1 = new double[22][15]; //22 neuronas de entrada que se conectan a 5 neuronas.
+    double[][] pesos1_1 = new double[15][10];
+    double[][] pesos1_2 = new double[10][5];
     double[][] pesos2 = new double[5][1]; // 5 neuronas de la capa oculta se conectan a la neurona de salida.
     
     public RedNeuronal() {
         crearDatos();
         List<Integer> lista = crearListaDesordenada();
+        boolean train;
+        do{
         elegirDataEntrenamiento(lista);
         elegirDataPrueba(lista);
-        this.imprimirData();
+        //this.imprimirData();
+        train = comprobarBalanceDatos(entrenamiento);
+        if(!train){
+            Collections.shuffle(lista);
+        }
+        }while(!train);
         this.calcularPesosCapas();
+        this.entrenamiento();
+    }
+    
+    private boolean comprobarBalanceDatos(double[][] datos){
+        double countVenenoso = 0;
+        double countComestible = 0;
+        for(int i = 0; i<datos.length; i++){
+            if(datos[i][0]==1){
+                countComestible++;
+            }
+            else{
+                countVenenoso++;
+            }
+        }
+        System.out.println("Comestible: "+countComestible);
+        System.out.println("Venenoso: "+countVenenoso);
+        double balance = countComestible/countVenenoso;
+        if(balance>1.08){
+            System.out.println("Balance: "+balance);
+            return true;
+        }
+        System.out.println("Balance: "+balance);
+        return false;
     }
     
     public void imprimirData(){
@@ -68,7 +100,15 @@ public class RedNeuronal {
         for (int i = 0; i < totalData; i++) {
             lista.add(i);
         }
+        /*List<Integer> lista2 = new ArrayList<>();
+        for (int i = 0; i < totalDataEntrenamiento; i++) {
+            lista2.add(lista.get(i));
+            lista.remove(0);
+        }*/
         Collections.shuffle(lista);
+        /*for (int i = 0; i < lista.size(); i++) {
+            lista2.add(lista.get(i));
+        }*/
         return lista;
     }
     
@@ -97,7 +137,7 @@ public class RedNeuronal {
      */
     public void elegirDataPrueba(List<Integer> lista){
         int fila = 0;
-        for (int i = totalDataEntrenamiento; i < totalData - totalDataValidacion; i++) {
+        for (int i = totalDataEntrenamiento; i < (totalData - totalDataValidacion); i++) {
             int numRandom = lista.get(i);
             for (int j = 0; j < totalAtributos; j++) {
                 prueba[fila][j] = data[numRandom][j];
@@ -133,6 +173,18 @@ public class RedNeuronal {
             }
         }
         
+        for(int i = 0; i<pesos1_1.length; i++){
+            for(int j = 0; j<pesos1_1[i].length; j++){
+                pesos1_1[i][j]=this.obtenerPesoAleatorio();
+            }
+        }
+        
+        for(int i = 0; i<pesos1_2.length; i++){
+            for(int j = 0; j<pesos1_2[i].length; j++){
+                pesos1_2[i][j]=this.obtenerPesoAleatorio();
+            }
+        }
+        
         for(int i = 0; i<pesos2.length; i++){
             for(int j = 0; j<pesos2[i].length; j++){
                 pesos2[i][j]=this.obtenerPesoAleatorio();
@@ -140,6 +192,8 @@ public class RedNeuronal {
         }
         
         System.out.println("Pesos de la capa 1: " + Arrays.deepToString(pesos1));
+        System.out.println("Pesos de la capa 1_1: " + Arrays.deepToString(pesos1_1));
+        System.out.println("Pesos de la capa 1_2: " + Arrays.deepToString(pesos1_2));
         System.out.println("Pesos de la capa 2: " + Arrays.deepToString(pesos2));
     }
     
@@ -150,7 +204,11 @@ public class RedNeuronal {
     private double obtenerPesoAleatorio(){
         double peso = 0;
         Random rnd = new Random();
-        int numero = rnd.nextInt(10);
+        int numero = rnd.nextInt(10)+1;
+        int op = rnd.nextInt(2);
+        if(op==1){
+            numero=numero*-1;
+        }
         peso = numero/10.0;
         return peso;
     }        
@@ -161,7 +219,7 @@ public class RedNeuronal {
         
         for(int i = 0; i<hongo.length; i++){
             for(int j = 0; j<peso[0].length; j++){
-                for(int k = 0; k<hongo.length; k++){
+                for(int k = 0; k<hongo[0].length; k++){
                     resultado[i][j]=resultado[i][j]+(hongo[i][k]*peso[k][j]);
                 }
             }
@@ -171,7 +229,9 @@ public class RedNeuronal {
     
     private void entrenamiento(){
         
-        double[][] pesosPrevios1 = new double[22][5]; 
+        double[][] pesosPrevios1 = new double[22][15]; 
+        double[][] pesosPrevios1_1 = new double[15][10]; 
+        double[][] pesosPrevios1_2 = new double[10][5]; 
         double[][] pesosPrevios2 = new double[5][1];
         
         // [0]: precision pasada - [1]: precision antespasada 
@@ -187,12 +247,18 @@ public class RedNeuronal {
 
                 double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
                 double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
+                
+                double[][] resultado1_1 = multiplicacionMatrices(nuevoResultado1, pesos1_1);
+                double[][] nuevoResultado1_1 = this.funcionSigmoide(resultado1_1);
+                
+                double[][] resultado1_2 = multiplicacionMatrices(nuevoResultado1_1, pesos1_2);
+                double[][] nuevoResultado1_2 = this.funcionSigmoide(resultado1_2);
 
-                double[][] resultado2 = multiplicacionMatrices(nuevoResultado1, pesos2);
+                double[][] resultado2 = multiplicacionMatrices(nuevoResultado1_2, pesos2);
                 double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
 
                 double valorDeseado = entrenamiento[k][0];
-
+                //System.out.println("Precision: "+precision);
                 if( ((nuevoResultado2[0][0] > .5) && (valorDeseado > .5)) || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5)) ){
                     precision++;
                 }
@@ -207,17 +273,43 @@ public class RedNeuronal {
                            pesos2[fil][col]=this.actulizarPesos(pesos2[fil][col], gradienteSalida, nuevoResultado2[0][col], pesosPrevios2, fil, col);
                         }
                     }
+                    
+                    double[] gradienteOculto1_2 = new double[resultado1_2[0].length];
+                    for(int col = 0; col<resultado1_2[0].length; col++){
+                        double nuevaGradiente = gradienteEstocasticoDescendienteOculto(
+                                nuevoResultado1_2[0][col], gradienteSalida1, pesos2[col]);
+                        gradienteOculto1_2[col] = nuevaGradiente;    
+                    }
+
+                    for(int col = 0; col<pesos1_2[0].length; col++){
+                        for(int fil = 0; fil<pesos1_2.length; fil++){
+                           pesos1_2[fil][col]=this.actulizarPesos(pesos1_2[fil][col], gradienteOculto1_2[col], nuevoResultado1_2[0][col], pesosPrevios1_2, fil, col);
+                        }
+                    }
+                    
+                    double[] gradienteOculto1_1 = new double[resultado1_1[0].length];
+                    for(int col = 0; col<resultado1_1[0].length; col++){
+                        double nuevaGradiente = gradienteEstocasticoDescendienteOculto(
+                                nuevoResultado1_1[0][col], gradienteOculto1_2, pesos1_2[col]);
+                        gradienteOculto1_1[col] = nuevaGradiente;    
+                    }
+
+                    for(int col = 0; col<pesos1_1[0].length; col++){
+                        for(int fil = 0; fil<pesos1_1.length; fil++){
+                           pesos1_1[fil][col]=this.actulizarPesos(pesos1_1[fil][col], gradienteOculto1_1[col], nuevoResultado1_1[0][col], pesosPrevios1_1, fil, col);
+                        }
+                    }
 
                     double[] gradienteOculto = new double[resultado1[0].length];
                     for(int col = 0; col<resultado1[0].length; col++){
-                        double[] fila = obtenerFila(pesos2, col);
+                        //double[] fila = obtenerFila(pesos1_2, col);
                        //gradienteEstocasticoDescendenteOculto
                         double nuevaGradiente = gradienteEstocasticoDescendienteOculto(
-                                nuevoResultado1[0][col], gradienteSalida1, fila);
+                                nuevoResultado1[0][col], gradienteOculto1_1, pesos1_1[col]);
                         //Asignacion
                         gradienteOculto[col] = nuevaGradiente;    
                     }
-
+                    
                     for(int col = 0; col<pesos1[0].length; col++){
                         for(int fil = 0; fil<pesos1.length; fil++){
                            pesos1[fil][col]=this.actulizarPesos(pesos1[fil][col], gradienteOculto[col], nuevoResultado1[0][col], pesosPrevios1, fil, col);
@@ -225,6 +317,50 @@ public class RedNeuronal {
                     }
                 }
             }
+            System.out.println("Precicison epoca "+ (epoca+1)+": "+precision);
+            if(epoca%50==0){
+                double porcentaje2 = (precision/totalDataEntrenamiento)*100;
+                imprimirPesos();
+                System.out.println("PORCENTAJE ENTRENAMIENTO: "+porcentaje2+"%");
+            }
+            
+            if(precisionesAnteriores[0] == precisionesAnteriores[1] && precision == precisionesAnteriores[0]){
+                System.out.println("--------Precisiciones BREAK------------");
+                System.out.println(precisionesAnteriores[0]);
+                System.out.println(precisionesAnteriores[1]);
+                System.out.println(precision);
+                System.out.println("--------Precisiciones BREAK------------");
+                break;
+            }
+            else{
+                precisionesAnteriores[0] = precisionesAnteriores[1];
+                precisionesAnteriores[1] = precision;
+            }
+            if(epoca%250==0){
+                double porcentajeAciertos = this.ejecutarPrueba();
+                System.out.println("Porcentaje de Aciertos en Pruebas: "+ porcentajeAciertos+"%");
+                if(porcentajeAciertos>75){
+                    System.out.println("--------Porcentaje BREAK------------");
+                    break;
+               }
+            }
+            
+            
+        }
+        System.out.println("******** PESOS FINALES ********");
+        this.imprimirPesos();
+        double porcentajeAciertos = this.ejecutarPrueba();
+        System.out.println("Porcentaje de Aciertos en Pruebas: "+ porcentajeAciertos+"%");
+    }
+    
+    private void imprimirPesos(){
+        System.out.println("******** PESOS CAPA 2 ********");
+        for (int i = 0; i < pesos2.length; i++) {
+            for (int j = 0; j < pesos2[0].length; j++) {
+                System.out.println("w"+i+": "+pesos2[i][j]);
+                
+            }
+            
         }
     }
     
@@ -263,13 +399,55 @@ public class RedNeuronal {
         return nuevoGradiente;
     }
     
-    
+    /**
+     * Usada para obtener la fila de una matriz
+     * @param matriz matriz a obtener la fila.
+     * @param fila numero de fila.
+     * @return la fila con todos los atributos.
+     */
     public double[] obtenerFila(double[][] matriz, int fila){
         double[] fila1 = new double[matriz[fila].length];
         for (int col = 0; col < matriz[fila].length; col++) {
             fila1[col] = matriz[fila][col];
         }
         return fila1;
+    }
+    
+    /**
+     * Metodo que ejecuta la data de prueba para la red neuronal.
+     * @return procentaje de aciertos que tiene la red neuronal para la data de prueba.
+     */
+    public double ejecutarPrueba(){
+        double precision = 0;
+        double porcentaje = 0;
+        for (int fil = 0; fil < totalDataPrueba; fil++) {
+
+            double[][] hongo = new double[1][22];
+            for (int col = 1; col < prueba[fil].length; col++) {
+                hongo[0][col - 1] = prueba[fil][col];
+            }
+
+            double[][] resultado1 = multiplicacionMatrices(hongo, pesos1);
+            double[][] nuevoResultado1 = this.funcionSigmoide(resultado1);
+
+            double[][] resultado1_1 = multiplicacionMatrices(nuevoResultado1, pesos1_1);
+            double[][] nuevoResultado1_1 = this.funcionSigmoide(resultado1_1);
+
+            double[][] resultado1_2 = multiplicacionMatrices(nuevoResultado1_1, pesos1_2);
+            double[][] nuevoResultado1_2 = this.funcionSigmoide(resultado1_2);
+
+            double[][] resultado2 = multiplicacionMatrices(nuevoResultado1_2, pesos2);
+            double[][] nuevoResultado2 = this.funcionSigmoide(resultado2);
+            
+            double valorDeseado = prueba[fil][0];
+
+            if (((nuevoResultado2[0][0] > .5) && (valorDeseado > .5))
+                || ((nuevoResultado2[0][0] <= .5) && (valorDeseado <= .5))) {
+                precision++;
+            }
+        }
+        porcentaje = (precision/totalDataPrueba)*100;
+        return porcentaje;
     }
     
     
@@ -375,7 +553,7 @@ public class RedNeuronal {
                                nuevoValor = 0.9;
                                break;
                                case 'y' :
-                               nuevoValor = 0.10;                         
+                               nuevoValor = 1.0;                         
                                break;
                             }   
                          } else if (j == 4) {   
@@ -456,40 +634,40 @@ public class RedNeuronal {
                          } else if (j == 9) {   
                             switch(c) {
                                case 'k' :
-                               nuevoValor = 0.1;
+                               nuevoValor = 0.05;
                                break;
                                case 'n' :
-                               nuevoValor = 0.2;
+                               nuevoValor = 0.1;
                                break;
                                case 'b' :
-                               nuevoValor = 0.3;
+                               nuevoValor = 0.15;
                                break;
                                case 'h' :
-                               nuevoValor = 0.4; 
+                               nuevoValor = 0.2; 
                                break;                       
                                case 'g' :
-                               nuevoValor = 0.5;
+                               nuevoValor = 0.25;
                                break;
                                case 'r' :
-                               nuevoValor = 0.6;
+                               nuevoValor = 0.3;
                                break;
                                case 'o' :
-                               nuevoValor = 0.7;
+                               nuevoValor = 0.35;
                                break;
                                case 'p' :
-                               nuevoValor = 0.8;
+                               nuevoValor = 0.4;
                                break;
                                case 'u' :
-                               nuevoValor = 0.9;
+                               nuevoValor = 0.45;
                                break;
                                case 'e' :
-                               nuevoValor = 1.0;
+                               nuevoValor = 0.5;
                                break;
                                case 'w' :
-                               nuevoValor = 1.1;
+                               nuevoValor = 0.55;
                                break;
                                case 'y' :
-                               nuevoValor = 1.2;                          
+                               nuevoValor = 0.6;                          
                                break;
                             }                                                                        
                          } else if (j == 10) {   
@@ -562,6 +740,7 @@ public class RedNeuronal {
                                break;
                                case 'b' :
                                nuevoValor = 0.2;
+                               break;
                                case 'c' :
                                nuevoValor = 0.3;
                                break;
