@@ -348,7 +348,7 @@ public class RedNeuronal {
     }
     
     private void imprimirPesos(){
-        System.out.println("******** PESOS CAPA 2 ********");
+        System.out.println("******** PESOS CAPA 4 ********");
         for (int i = 0; i < pesos2.length; i++) {
             for (int j = 0; j < pesos2[0].length; j++) {
                 System.out.println("w"+i+": "+pesos2[i][j]);
